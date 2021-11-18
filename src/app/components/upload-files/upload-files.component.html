@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-8">
+    <label class="btn btn-default p-0">
+      <input type="file" multiple (change)="selectFiles($event)" />
+    </label>
+  </div>
+
+  <div class="col-4">
+    <button
+      class="btn btn-success btn-sm"
+      [disabled]="!selectedFiles"
+      (click)="uploadFiles()"
+    >
+      Upload
+    </button>
+  </div>
+</div>
+
+<div *ngFor="let progressInfo of progressInfos" class="mb-2">
+  <span>{{ progressInfo.fileName }}</span>
+  <div class="progress">
+    <div
+      class="progress-bar progress-bar-info"
+      role="progressbar"
+      attr.aria-valuenow="{{ progressInfo.value }}"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [ngStyle]="{ width: progressInfo.value + '%' }"
+    >
+      {{ progressInfo.value }}%
+    </div>
+  </div>
+</div>
+
+<div *ngIf="message.length" class="alert alert-secondary my-3" role="alert">
+  <ul *ngFor="let msg of message; let i = index">
+    <li>{{ msg }}</li>
+  </ul>
+</div>
+
+<div class="card mt-3">
+  <div class="card-header">List of Files</div>
+  <ul
+    class="list-group list-group-flush"
+    *ngFor="let file of fileInfos | async"
+  >
+    <li class="list-group-item">
+      <a href="{{ file.url }}">{{ file.name }}</a>
+    </li>
+  </ul>
+</div>
